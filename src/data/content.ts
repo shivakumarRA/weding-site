@@ -20,8 +20,10 @@ export const facts = {
   venueWhatsapp: "919010175615",
   /** Exactly what Google Maps searches for — built only from the supplied address. */
   venueMapsQuery: "P.V. Function Hall, Beside Flyover, Kodad Road, Nayakangudem",
+  /** Exact venue location (17°11'37.6"N 79°53'35.2"E) — used for directions and the embedded map. */
+  venueCoords: "17.193767,79.893109",
   /** Optional: path to an mp3 in /public (e.g. "/music/mangala-vadyam.mp3"). Empty = gentle generated melody. */
-  musicSrc: "",
+  musicSrc: "/music/wedding.mp3",
 };
 
 /** Indian wedding imagery (stock, decorative — replace with your own photos in /public/photos). */
@@ -252,3 +254,5 @@ export const mapsDirections = (q: string) =>
   `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
 export const mapsLocation = (q: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+export const mapsEmbed = (q: string) =>
+  `https://maps.google.com/maps?q=${encodeURIComponent(q)}&z=16&output=embed`;

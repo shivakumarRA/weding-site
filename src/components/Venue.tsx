@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Navigation, Phone } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
-import { facts, images, mapsDirections, mapsLocation } from "@/data/content";
+import { facts, images, mapsDirections, mapsEmbed, mapsLocation } from "@/data/content";
 import { useLang } from "./i18n";
 import { CornerFlourish } from "./ornaments";
 import { Reveal, SectionHeading, WhatsAppIcon, ease } from "./ui";
@@ -81,7 +81,7 @@ export function Venue() {
               </div>
 
               <div className="mt-10 grid gap-3">
-                <a href={mapsDirections(facts.venueMapsQuery)} target="_blank" rel="noopener noreferrer" className="btn-gold btn-gold-solid">
+                <a href={mapsDirections(facts.venueCoords)} target="_blank" rel="noopener noreferrer" className="btn-gold btn-gold-solid">
                   <Navigation className="h-4 w-4" strokeWidth={1.4} /> {v.directions}
                 </a>
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -93,7 +93,7 @@ export function Venue() {
                   </a>
                 </div>
                 <a
-                  href={mapsLocation(facts.venueMapsQuery)}
+                  href={mapsLocation(facts.venueCoords)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 inline-flex items-center justify-center gap-2 text-xs tracking-wider text-gold-deep underline-offset-4 hover:underline"
@@ -104,6 +104,23 @@ export function Venue() {
             </div>
           </Reveal>
         </div>
+
+        {/* Embedded map */}
+        <Reveal delay={0.1} className="mt-20 md:mt-28">
+          <div className="relative">
+            <div className="absolute -inset-3 border border-gold/40 md:-inset-4" aria-hidden="true" />
+            <div className="relative aspect-[4/3] overflow-hidden border border-gold/50 bg-ivory shadow-xl shadow-ink/10 sm:aspect-[16/7]">
+              <iframe
+                title={`${v.name} — map`}
+                src={mapsEmbed(facts.venueCoords)}
+                className="absolute inset-0 h-full w-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
