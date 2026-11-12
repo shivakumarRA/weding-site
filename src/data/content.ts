@@ -15,9 +15,9 @@ export const facts = {
   /** Sumuhurtham — drives the countdown and calendar file. */
   muhurthamISO: "2026-11-22T11:22:00+05:30",
   /** Phone numbers for the venue (digits only, India). */
-  venuePhones: ["9010175615", "9348462807"],
+  venuePhones: ["9550605192", "8501804306"],
   /** WhatsApp number, with country code. */
-  venueWhatsapp: "919010175615",
+  venueWhatsapp: "919550605192",
   /** Exactly what Google Maps searches for — built only from the supplied address. */
   venueMapsQuery: "P.V. Function Hall, Beside Flyover, Kodad Road, Nayakangudem",
   /** Exact venue location (17°11'37.6"N 79°53'35.2"E) — used for directions and the embedded map. */
