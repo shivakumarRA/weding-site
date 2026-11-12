@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #fbf7f0;
+  --color-cream: #f5ede1;
+  --color-beige: #e9dccb;
+  --color-champagne: #c9a96e;
+  --color-gold: #b08d57;
+  --color-gold-deep: #8a6a3b;
+  --color-blush: #ecc9c3;
+  --color-blush-deep: #c98d85;
+  --color-sage: #9aa68c;
+  --color-sage-deep: #6f7a63;
+  --color-ink: #2d2620;
+  --color-ink-deep: #231c17;
+  --color-ink-soft: #5e544a;
+
+  /* Latin font first; Telugu glyphs fall through to the Telugu font automatically. */
+  --font-serif: var(--font-cormorant), var(--font-tiro-telugu), Georgia, serif;
+  --font-script: var(--font-pinyon), var(--font-tiro-telugu), cursive;
+  --font-sans: var(--font-jost), var(--font-noto-telugu), system-ui, sans-serif;
+  --font-telugu: var(--font-tiro-telugu), var(--font-noto-telugu), serif;
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-champagne);
+    color: var(--color-ink-deep);
+  }
+  :focus-visible {
+    outline: 1px solid var(--color-gold);
+    outline-offset: 4px;
+  }
+}
+
+/* ── Telugu typography: give stacked vowel signs room, drop Latin-style tracking ── */
+:lang(te) body {
+  font-weight: 400;
+}
+:lang(te) h1,
+:lang(te) h2,
+:lang(te) h3,
+:lang(te) h4,
+:lang(te) .te-tight {
+  line-height: 1.4 !important;
+  font-family: var(--font-telugu);
+  font-weight: 400;
+  letter-spacing: 0 !important;
+}
+:lang(te) p,
+:lang(te) li,
+:lang(te) address,
+:lang(te) dd {
+  line-height: 1.85;
+}
+:lang(te) .eyebrow {
+  font-family: var(--font-telugu);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 0.85rem;
+}
+:lang(te) .font-script {
+  font-family: var(--font-telugu);
+  line-height: 1.5;
+}
+/* Wide Latin-style tracking pulls Telugu clusters apart — keep it tight. */
+:lang(te) [class*="tracking-"] {
+  letter-spacing: 0.02em !important;
+}
+.font-telugu {
+  font-family: var(--font-telugu);
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .container-luxe {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-luxe {
+      padding-inline: 2.5rem;
+    }
+  }
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem 2rem;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold-deep);
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    font-weight: 400;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.5s var(--ease-luxe);
+  }
+  :lang(te) .btn-gold {
+    letter-spacing: 0.02em;
+    font-size: 0.85rem;
+    text-transform: none;
+    font-family: var(--font-telugu);
+  }
+  .btn-gold::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.6s var(--ease-luxe);
+    z-index: -1;
+  }
+  .btn-gold:hover {
+    color: var(--color-ivory);
+  }
+  .btn-gold:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .btn-gold-solid {
+    background: var(--color-gold);
+    color: var(--color-ivory);
+  }
+  .btn-gold-solid::before {
+    background: var(--color-gold-deep);
+  }
+
+  .paper {
+    background-color: var(--color-ivory);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .2 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Gold kolam-style lattice for ink grounds */
+  .pattern-ink {
+    background-color: var(--color-ink);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='.7' opacity='.16'%3E%3Cpath d='M36 4 68 36 36 68 4 36Z'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3Cpath d='M36 25q6 5.5 0 11-6-5.5 0-11M36 47q6-5.5 0-11-6 5.5 0 11M25 36q5.5 6 11 0-5.5-6-11 0M47 36q-5.5 6-11 0 5.5-6 11 0'/%3E%3C/g%3E%3Cg fill='%23c9a96e' opacity='.28'%3E%3Ccircle cx='0' cy='0' r='1.6'/%3E%3Ccircle cx='72' cy='0' r='1.6'/%3E%3Ccircle cx='0' cy='72' r='1.6'/%3E%3Ccircle cx='72' cy='72' r='1.6'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Temple-border band (repeat-x) */
+  .temple-border {
+    height: 26px;
+    background-repeat: repeat-x;
+    background-size: auto 26px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='26'%3E%3Cg fill='none' stroke='%23b08d57' stroke-width='1'%3E%3Cpath d='M0 2h44M0 24h44'/%3E%3Cpath d='M0 20q11-16 22 0t22 0'/%3E%3Cpath d='M22 6l4 4-4 4-4-4z'/%3E%3C/g%3E%3Cg fill='%23b08d57'%3E%3Ccircle cx='0' cy='15' r='1.6'/%3E%3Ccircle cx='44' cy='15' r='1.6'/%3E%3Ccircle cx='22' cy='10' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .temple-border-light {
+    height: 26px;
+    background-repeat: repeat-x;
+    background-size: auto 26px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='26'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='1'%3E%3Cpath d='M0 2h44M0 24h44'/%3E%3Cpath d='M0 20q11-16 22 0t22 0'/%3E%3Cpath d='M22 6l4 4-4 4-4-4z'/%3E%3C/g%3E%3Cg fill='%23c9a96e'%3E%3Ccircle cx='0' cy='15' r='1.6'/%3E%3Ccircle cx='44' cy='15' r='1.6'/%3E%3Ccircle cx='22' cy='10' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
