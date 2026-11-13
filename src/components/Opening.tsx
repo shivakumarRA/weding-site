@@ -1,11 +1,45 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { images } from "@/data/content";
 import { LangToggle, useLang } from "./i18n";
 import { useMusic } from "./MusicProvider";
 import { CornerFlourish } from "./ornaments";
 import { ease } from "./ui";
+
+/** A photo in a double gold temple-arch frame, used on either side of the entrance screen. */
+function ArchPhoto({ src, alt, delay, from, className = "" }: {
+  src: string;
+  alt: string;
+  delay: number;
+  /** Horizontal offset (px) the photo slides in from. */
+  from: number;
+  className?: string;
+}) {
+  return (
+    <motion.figure
+      className={`relative shrink-0 ${className}`}
+      initial={{ opacity: 0, x: from, scale: 0.96 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      transition={{ delay, duration: 1.4, ease }}
+    >
+      <div className="absolute -inset-2 rounded-t-[999px] border border-gold/60 lg:-inset-3" aria-hidden="true" />
+      <div className="absolute -inset-3.5 rounded-t-[999px] border border-gold/25 lg:-inset-5" aria-hidden="true" />
+      <div className="relative aspect-[2/3] h-40 overflow-hidden rounded-t-[999px] bg-cream shadow-[0_30px_60px_-30px_rgba(45,38,32,0.6)] [@media(max-height:700px)]:h-28 sm:h-52 lg:h-[min(56vh,24rem)] xl:h-[min(62vh,28rem)]">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority
+          sizes="(min-width: 1280px) 300px, (min-width: 1024px) 260px, 140px"
+          className="object-cover object-top"
+        />
+      </div>
+    </motion.figure>
+  );
+}
 
 /**
  * Full-screen ink "doors" that part to reveal the invitation.
@@ -57,14 +91,35 @@ export function Opening({ onOpen }: { onOpen: () => void }) {
           ))}
 
           <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-ink"
+            className="absolute inset-0 overflow-y-auto text-center text-ink"
             animate={open ? { opacity: 0, scale: 0.96 } : { opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease }}
           >
-            <div className="absolute right-5 top-5 md:right-12 md:top-12">
+            <div className="absolute right-5 top-5 z-10 md:right-12 md:top-12">
               <LangToggle tone="dark" />
             </div>
 
+            {/*
+              Phones/tablets: the two photos sit side by side above the text.
+              Laptops (lg+): groom photo | invitation text | couple photo.
+            */}
+            <div className="flex min-h-full flex-wrap content-center items-center justify-center gap-x-8 gap-y-6 px-6 py-14 sm:gap-x-12 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-12 lg:px-16 lg:py-10 xl:gap-x-20">
+              <ArchPhoto
+                src={images.couple.src}
+                alt={t.opening.names}
+                delay={0.4}
+                from={30}
+                className="order-2 lg:order-3 lg:justify-self-start"
+              />
+              <ArchPhoto
+                src={images.groom.src}
+                alt="Venkateswarlu"
+                delay={0.55}
+                from={-30}
+                className="order-1 lg:justify-self-end"
+              />
+
+            <div className="order-3 flex basis-full flex-col items-center lg:order-2 lg:basis-auto">
             <motion.p
               className="font-serif text-lg italic text-gold-deep md:text-2xl"
               initial={{ opacity: 0, y: 12 }}
@@ -76,7 +131,7 @@ export function Opening({ onOpen }: { onOpen: () => void }) {
 
             <motion.button
               onClick={() => handleOpen(true)}
-              className="relative my-9 grid h-36 w-36 place-items-center rounded-full md:h-44 md:w-44"
+              className="relative my-5 grid h-28 w-28 place-items-center rounded-full sm:my-8 sm:h-36 sm:w-36 md:my-6 md:h-32 md:w-32 [@media(min-width:768px)_and_(min-height:821px)]:my-9 [@media(min-width:768px)_and_(min-height:821px)]:h-44 [@media(min-width:768px)_and_(min-height:821px)]:w-44 [@media(max-height:700px)]:my-3 [@media(max-height:700px)]:h-20 [@media(max-height:700px)]:w-20"
               initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ delay: 0.6, duration: 1.4, ease }}
@@ -95,9 +150,9 @@ export function Opening({ onOpen }: { onOpen: () => void }) {
               />
               <span className="absolute inset-3 rounded-full border border-ivory/40" />
               <span className="absolute inset-5 rounded-full border border-dashed border-ivory/30" />
-              <span className="relative font-serif text-4xl font-light tracking-wider text-ivory md:text-5xl">
+              <span className="relative font-serif text-3xl font-light tracking-wider text-ivory sm:text-4xl [@media(min-width:768px)_and_(min-height:821px)]:text-5xl">
                 {lang === "te" ? (
-                  <span className="font-telugu text-3xl md:text-4xl">వెం ♥ స్నే</span>
+                  <span className="font-telugu text-2xl sm:text-3xl">వెం ♥ స్నే</span>
                 ) : (
                   <>
                     V<span className="mx-1 font-script text-3xl">&</span>S
@@ -110,7 +165,7 @@ export function Opening({ onOpen }: { onOpen: () => void }) {
               {t.opening.invited}
             </motion.p>
             <motion.h1
-              className="te-tight mt-4 font-script text-[2.6rem] leading-tight text-ink sm:text-5xl md:text-7xl"
+              className="te-tight mt-3 font-script text-[2.6rem] leading-tight text-ink sm:text-5xl md:text-6xl"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 1.2, ease }}
@@ -126,14 +181,27 @@ export function Opening({ onOpen }: { onOpen: () => void }) {
               {t.opening.date}
             </motion.p>
 
-            <motion.div className="mt-10 flex flex-col items-center gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}>
-              <button onClick={() => handleOpen(true)} className="btn-gold">
+            <motion.div className="mt-7 flex flex-col items-center gap-3 md:mt-8 md:gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}>
+              <motion.button
+                onClick={() => handleOpen(true)}
+                className="btn-open"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                <span className="btn-open-ring" aria-hidden="true" />
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                  <path d="M3 7.5 12 13l9-5.5M3.5 6h17a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-17a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5Z" />
+                </svg>
                 {t.opening.open}
-              </button>
+              </motion.button>
               <button onClick={() => handleOpen(false)} className="text-xs tracking-wider text-ink-soft/70 underline-offset-4 hover:text-gold hover:underline">
                 {t.opening.noMusic}
               </button>
             </motion.div>
+            </div>
+            </div>
           </motion.div>
         </motion.div>
       )}

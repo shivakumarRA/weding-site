@@ -35,8 +35,8 @@ function Marigold({ cx, cy, r, tone }: { cx: number; cy: number; r: number; tone
         return (
           <circle
             key={i}
-            cx={cx + Math.cos(a) * r * 0.72}
-            cy={cy + Math.sin(a) * r * 0.72}
+            cx={(cx + Math.cos(a) * r * 0.72).toFixed(2)}
+            cy={(cy + Math.sin(a) * r * 0.72).toFixed(2)}
             r={r * 0.36}
             fill={`url(#mg-${tone})`}
           />

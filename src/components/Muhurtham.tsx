@@ -73,8 +73,8 @@ function MuhurthamClock() {
           return (
             <g key={i}>
               <text
-                x={120 + Math.cos(a) * 72}
-                y={120 + Math.sin(a) * 72 + 5}
+                x={(120 + Math.cos(a) * 72).toFixed(2)}
+                y={(120 + Math.sin(a) * 72 + 5).toFixed(2)}
                 textAnchor="middle"
                 fontSize="15"
                 fill="#2d2620"
@@ -82,7 +82,7 @@ function MuhurthamClock() {
               >
                 {i + 1}
               </text>
-              <circle cx={120 + Math.cos(a) * 86} cy={120 + Math.sin(a) * 86} r={i % 3 === 2 ? 2.4 : 1.3} fill="#b08d57" />
+              <circle cx={(120 + Math.cos(a) * 86).toFixed(2)} cy={(120 + Math.sin(a) * 86).toFixed(2)} r={i % 3 === 2 ? 2.4 : 1.3} fill="#b08d57" />
             </g>
           );
         })}
